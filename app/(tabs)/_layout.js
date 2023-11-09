@@ -14,11 +14,8 @@ const TabsLayout = () => {
             case "home":
               iconName = "home-outline";
               break;
-            case "for-you":
-              iconName = "document-text-outline";
-              break;
-            case "video":
-              iconName = "videocam-outline";
+            case "transaction":
+              iconName = "cash-outline";
               break;
             case "profile":
               iconName = "person-circle-outline";
@@ -27,18 +24,19 @@ const TabsLayout = () => {
           return (
             <Ionicons
               name={iconName}
-              size={28}
-              color={focused ? "black" : color}
+              size={21}
+              color={focused ? "#fde047" : color}
             />
           );
         },
         tabBarIconStyle: { marginTop: 5 },
         tabBarStyle: {
-          height: 70,
+          height: 60,
+          backgroundColor: "#171717"
         },
         tabBarLabel: ({ children, color, focused }) => {
           return (
-            <Text mb="$2" color={focused ? "$black" : color} fontSize="$sm">
+            <Text mb="$2" color={focused ? "$white" : color} fontSize="$sm" fontWeight= 'bold'>
               {children}
             </Text>
           );
@@ -46,8 +44,8 @@ const TabsLayout = () => {
       })}
     >
       <Tabs.Screen name="home" options={{ title: "Home", ...noHead }} />
-      <Tabs.Screen name="for-you" options={{ title: "For You", ...noHead }} />
-      <Tabs.Screen name="video" options={{ title: "Video", ...noHead }} />
+      
+      <Tabs.Screen name="transaction" options={{ title: "Transaction", ...noHead }} />
       <Tabs.Screen name="profile" options={{ title: "Profile", ...noHead }} />
     </Tabs>
   );

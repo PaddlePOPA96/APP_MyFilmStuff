@@ -11,16 +11,16 @@ const Header = ({ title, withBack = false, withClose = false }) => {
   return (
     <SafeAreaView>
       <StatusBar barStyle="light" backgroundColor={trueGray900} />
-      <Box bg="$trueGray900" p="$5">
+      <Box bg="$trueGray900" p="$2">
         <HStack justifyContent="space-between" alignItems="center">
           <HStack alignItems="center">
             {!withBack ? (
               <>
                 <Image
-                  source={require("../assets/cnn.png")}
+                  source={require("../assets/cinemskuy.png")}
                   w="$12"
                   h="$12"
-                  alt="CNN Logo"
+                  alt="Cinemskuy Logo"
                   mr={"$3"}
                   role="img"
                 />
@@ -37,37 +37,6 @@ const Header = ({ title, withBack = false, withClose = false }) => {
             )}
             <Heading color={"$white"}>{title}</Heading>
           </HStack>
-
-          {/* <HStack space={"2xl"}>
-            <Image
-              source={require("../assets/facebook.png")}
-              w="$5"
-              h="$5"
-              alt="Facebook Icon"
-              role="img"
-            />
-            <Image
-              source={require("../assets/youtube.png")}
-              w="$5"
-              h="$5"
-              alt="Facebook Icon"
-              role="img"
-            />
-            <Image
-              source={require("../assets/twitter.png")}
-              w="$5"
-              h="$5"
-              alt="Facebook Icon"
-              role="img"
-            />
-            <Image
-              source={require("../assets/search.png")}
-              w="$5"
-              h="$5"
-              alt="Search Icon"
-              role="img"
-            />
-          </HStack> */}
         </HStack>
       </Box>
     </SafeAreaView>
