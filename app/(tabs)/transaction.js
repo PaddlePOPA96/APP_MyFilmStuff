@@ -1,15 +1,15 @@
 import { Center, Heading } from "@gluestack-ui/themed";
 import { Header } from "../../components";
 
-const ForYou = () => {
+const Transaction = () => {
   return (
     <>
-      <Header title={"For You"} />
+      <Header title={"Transaction"} />
       <Center flex={1}>
-        <Heading>For You</Heading>
+        <Heading>Transaction</Heading>
       </Center>
     </>
   );
 };
 
-export default ForYou;
+export default Transaction;

@@ -7,7 +7,7 @@ const Web = () => {
   const params = useLocalSearchParams();
   return (
     <>
-      <Header title={"Read"} withBack={true} />
+      <Header title={"Watch"} withBack={true} />
       <WebView
         source={{ uri: params.link }}
         startInLoadingState={true}
