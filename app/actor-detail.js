@@ -23,7 +23,7 @@ const actorDetail = () => {
           role="img"
         >
           <Box bg={"rgba(0,0,0, 0.60)"}>
-            <Box p={"$4"} mt={129}>
+            <Box p={"$4"} mt={500}>
               <Heading
                 lineHeight={"$2xl"}
                 fontSize={"$3xl"}
@@ -79,7 +79,7 @@ const actorDetail = () => {
                 borderRadius={20}
                 alignSelf="flex-start"
                 flexDirection="column"
-                height={80}
+                height={40}
               >
                 <ButtonText color={"$black"}>Read More</ButtonText>
               </Button>
@@ -96,9 +96,9 @@ const actorDetail = () => {
                 backgroundColor="$yellow300"
                 borderRadius={20}
                 alignSelf="flex-start"
-                height={80}
+                height={40}
               >
-                <ButtonText color={"$black"}>Buy Ticket</ButtonText>
+                <ButtonText color={"$black"}>add to favourite</ButtonText>
               </Button>
             </Link>
           </Box>

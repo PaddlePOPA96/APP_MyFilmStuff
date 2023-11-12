@@ -10,17 +10,16 @@ import {
   Text,
   Pressable,
 } from "@gluestack-ui/themed";
-import { Categories, Header, actorsitem } from "../../components";
+import {  Header } from "../../components";
 import { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import CategoryButton from "../../components/category-button";
 
-const datas = [
+const actordata = [
   {
-    id: 1,
+    id: 11,
     name: "John Cena Jr.",
-    description:
-      "John Felix Anthony Cena was born on April 23, 1977 in West Newbury, Massachusetts to Carol Cena and John Joseph Cena. He is of Italian (father) and French-Canadian and English (mother) descent, and is the grandson of baseball player Tony Lupien. When he was in college, he played football. He then continued on to be a bodybuilder and a limousine driver. ",
+    description:"",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/John_Cena_July_2018.jpg/800px-John_Cena_July_2018.jpg",
 
@@ -34,8 +33,24 @@ const datas = [
     categories: "Actor",
 
   },
+  {
+    id: 12,
+    name: "Angelina Jolie",
+    description:
+    "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm91ttrInqVYkGddA4AnTNfJc-o4SbmDZL8Vv_NH0qnUgkqRmY"
+    ,
+    genre: "",
+    born: "",
+    parent: "",
+    spouses: "",
+    other: ""
+    ,
+    link: "https://www.imdb.com/name/nm1078479/",
+    categories: "Actress",
+
+  },
   
-   
 ];
 
 const categories = [
@@ -56,13 +71,13 @@ const categories = [
   },
 ];
 const Actor = () => {
-  const [datasList, setDatas] = useState(datas);
-  const [StatusActive, setStatusActive] = useState("Now");
+  const [datasList, setDatas] = useState(actordata);
+  const [StatusActive, setStatusActive] = useState("All");
   const setStatus = (StatusActive) => {
-    if (StatusActive !== "All Movies") {
-      setDatas([...datas.filter((e) => e.categories === StatusActive)]);
+    if (StatusActive !== "All") {
+      setDatas([...actordata.filter((e) => e.categories === StatusActive)]);
     } else {
-      setDatas(datas);
+      setDatas(actordata);
     }
     setStatusActive(StatusActive);
   };
@@ -81,32 +96,55 @@ const Actor = () => {
       other: item.other,
       link: item.link,
     };
+
     return (
-      <ScrollView>
-        <Box p={10}>
-          <Link
-            href={{
-              pathname: "/actor-detail",
-              params: actorsitem,
-            }}
-            asChild
-          >
-            <Pressable>
-              <Box p={10}>
-                <Image
-                  alt={item.name}
-                  source={{ uri: item.image }}
-                  w={170}
-                  h={200}
-                />
-                <Text textAlign="center" fontWeight="bold" mt={10}>
-                  {item.name}
-                </Text>
-              </Box>
-            </Pressable>
-          </Link>
+      <Box>
+      <Box p={10} flexDirection="row" alignItems="center">
+        <Link
+          href={{
+            pathname: "/actor-detail",
+            params: actorsitem,
+          }}
+          asChild
+        >
+          <Pressable>
+            <Image
+              alt={item.name}
+              source={{ uri: item.image }}
+              w={100}
+              h={100}
+              borderRadius={10}
+              marginRight={10}
+            />
+          </Pressable>
+        </Link>
+        <Divider orientation="vertical" h="80%" mx={10} color="gray.300" />
+
+        <Link
+          href={{
+            pathname: "/actor-detail",
+            params: actorsitem,
+          }}
+          asChild
+        >
+          <Pressable>
+            <Text textAlign="left" size="xl" fontWeight="bold" mt={10} flexShrink={1}>
+              {item.name}
+            </Text>
+            <Text textAlign="left"size="sm" fontWeight="bold" mt={8} flexShrink={1}>
+              {item.born}
+            </Text>
+          </Pressable>
+          
+        </Link>
+
         </Box>
-      </ScrollView>
+
+        <Divider orientation="horizontal" my={2} color="black.100" />
+
+      </Box>
+      
+      
     );
   };
 
@@ -115,26 +153,20 @@ const Actor = () => {
       <Header title={"Actor"} />
       <Box>
         <ScrollView>
-          <Box py={"$2"} bg={"$yellow"}>
-            <Categories />
-          </Box>
-
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Box flexDirection="row" mt={20}>
-              {categories.map((item, index) => {
-                return (
-                  <CategoryButton
-                    title={item.categories}
-                    isFirst={index == 0 ? true : false}
-                    isActive={index == activeCategory ? true : false}
-                    key={index}
-                    onPress={() => [
-                      setStatus(item.categories),
-                      setActiveCategory(index),
-                    ]}
-                  />
-                );
-              })}
+              {categories.map((item, index) => (
+                <CategoryButton
+                  title={item.categories}
+                  isFirst={index === 0}
+                  isActive={index === activeCategory}
+                  key={index}
+                  onPress={() => [
+                    setStatus(item.categories),
+                    setActiveCategory(index),
+                  ]}
+                />
+              ))}
             </Box>
           </ScrollView>
 
@@ -143,7 +175,7 @@ const Actor = () => {
             paddingBottom={100}
             data={datasList}
             renderItem={renderitem}
-            numColumns={2}
+            numColumns={1} // Set numColumns to 1 for a single column (list view)
           />
         </ScrollView>
       </Box>
