@@ -17,6 +17,9 @@ const TabsLayout = () => {
             case "transaction":
               iconName = "cash-outline";
               break;
+              case "actor":
+              iconName = "people-outline";
+              break;
             case "profile":
               iconName = "person-circle-outline";
               break;
