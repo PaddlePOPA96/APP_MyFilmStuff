@@ -17,7 +17,7 @@ const TabsLayout = () => {
             case "transaction":
               iconName = "cash-outline";
               break;
-              case "actor":
+            case "actor":
               iconName = "people-outline";
               break;
             case "profile":
@@ -35,11 +35,16 @@ const TabsLayout = () => {
         tabBarIconStyle: { marginTop: 5 },
         tabBarStyle: {
           height: 60,
-          backgroundColor: "#171717"
+          backgroundColor: "#171717",
         },
         tabBarLabel: ({ children, color, focused }) => {
           return (
-            <Text mb="$2" color={focused ? "$white" : color} fontSize="$sm" fontWeight= 'bold'>
+            <Text
+              mb="$2"
+              color={focused ? "$white" : color}
+              fontSize="$sm"
+              fontWeight="bold"
+            >
               {children}
             </Text>
           );
@@ -49,8 +54,10 @@ const TabsLayout = () => {
       <Tabs.Screen name="home" options={{ title: "Home", ...noHead }} />
       <Tabs.Screen name="actor" options={{ title: "Actor", ...noHead }} />
 
-      
-      <Tabs.Screen name="transaction" options={{ title: "Transaction", ...noHead }} />
+      <Tabs.Screen
+        name="transaction"
+        options={{ title: "Transaction", ...noHead }}
+      />
       <Tabs.Screen name="profile" options={{ title: "Profile", ...noHead }} />
     </Tabs>
   );

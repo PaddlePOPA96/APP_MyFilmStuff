@@ -1,6 +1,6 @@
 import Header from "./header";
 import CategoryButton from "./category-button";
 import Categories from "./categories";
-import actorcategory from "./actorcategory";
+import Favorite from "./favorite";
 
-export { Header, CategoryButton, Categories };
+export { Header, CategoryButton, Categories, Favorite };
