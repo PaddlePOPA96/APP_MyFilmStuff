@@ -1,9 +1,10 @@
-import { Box, Image, HStack, Heading } from "@gluestack-ui/themed";
+import { Box, Image, HStack, Heading, Pressable } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "expo-router";
+import { Link } from "expo-router";
 
 const Header = ({ title, withBack = false, withClose = false }) => {
   const trueGray900 = "#0d3353";

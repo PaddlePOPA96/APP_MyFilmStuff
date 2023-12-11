@@ -11,11 +11,16 @@ import {
 import { Header } from "../components";
 import { Link, useLocalSearchParams } from "expo-router";
 import { ImageBackground } from "react-native";
+import { useState } from "react";
+import FavoriteButton from "../components/favorite-button";
 
 const moviesDetail = () => {
   const params = useLocalSearchParams();
+  const [activeCategory, setActiveCategory] = useState(true);
   return (
     <>
+      <Header title={"Movies Detail"} withBack={true} />
+
       <ScrollView>
         <ImageBackground
           source={{ uri: params.image }}
@@ -59,6 +64,12 @@ const moviesDetail = () => {
                 >
                   Duration: {params.duration}
                 </Text>
+
+                <FavoriteButton
+                  id={params.id}
+                  title={params.title}
+                  image={params.image}
+                />
               </Box>
             </Box>
           </Box>
@@ -87,7 +98,7 @@ const moviesDetail = () => {
 
             <Link
               href={{
-                pathname: "/web",
+                pathname: "/payment-film",
                 params: { link: params.link },
               }}
               asChild

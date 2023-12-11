@@ -10,7 +10,7 @@ import {
   Text,
   Pressable,
 } from "@gluestack-ui/themed";
-import {  Header } from "../../components";
+import { Header } from "../../components";
 import { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import CategoryButton from "../../components/category-button";
@@ -19,7 +19,7 @@ const actordata = [
   {
     id: 11,
     name: "John Cena Jr.",
-    description:"",
+    description: "",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/John_Cena_July_2018.jpg/800px-John_Cena_July_2018.jpg",
 
@@ -27,30 +27,25 @@ const actordata = [
     born: "April, 23 1977",
     parent: "Carol Cena",
     spouses: "Shay Shariatzadeh",
-    other: "TV commercial for the Stacker 2 YJ Stinger Extreme Energy Drink from NVE Pharmaceuticals. As of 2020 Stacker 2 is still used as the label for some supplements, but the YJ Stinger Extreme Energy Drink is no longer produced"
-    ,
+    other:
+      "TV commercial for the Stacker 2 YJ Stinger Extreme Energy Drink from NVE Pharmaceuticals. As of 2020 Stacker 2 is still used as the label for some supplements, but the YJ Stinger Extreme Energy Drink is no longer produced",
     link: "https://www.imdb.com/name/nm1078479/",
     categories: "Actor",
-
   },
   {
     id: 12,
     name: "Angelina Jolie",
-    description:
-    "",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm91ttrInqVYkGddA4AnTNfJc-o4SbmDZL8Vv_NH0qnUgkqRmY"
-    ,
+    description: "",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm91ttrInqVYkGddA4AnTNfJc-o4SbmDZL8Vv_NH0qnUgkqRmY",
     genre: "",
     born: "",
     parent: "",
     spouses: "",
-    other: ""
-    ,
+    other: "",
     link: "https://www.imdb.com/name/nm1078479/",
     categories: "Actress",
-
   },
-  
 ];
 
 const categories = [
@@ -99,52 +94,59 @@ const Actor = () => {
 
     return (
       <Box>
-      <Box p={10} flexDirection="row" alignItems="center">
-        <Link
-          href={{
-            pathname: "/actor-detail",
-            params: actorsitem,
-          }}
-          asChild
-        >
-          <Pressable>
-            <Image
-              alt={item.name}
-              source={{ uri: item.image }}
-              w={100}
-              h={100}
-              borderRadius={10}
-              marginRight={10}
-            />
-          </Pressable>
-        </Link>
-        <Divider orientation="vertical" h="80%" mx={10} color="gray.300" />
+        <Box p={10} flexDirection="row" alignItems="center">
+          <Link
+            href={{
+              pathname: "/actor-detail",
+              params: actorsitem,
+            }}
+            asChild
+          >
+            <Pressable>
+              <Image
+                alt={item.name}
+                source={{ uri: item.image }}
+                w={100}
+                h={100}
+                borderRadius={10}
+                marginRight={10}
+              />
+            </Pressable>
+          </Link>
+          <Divider orientation="vertical" h="80%" mx={10} color="gray.300" />
 
-        <Link
-          href={{
-            pathname: "/actor-detail",
-            params: actorsitem,
-          }}
-          asChild
-        >
-          <Pressable>
-            <Text textAlign="left" size="xl" fontWeight="bold" mt={10} flexShrink={1}>
-              {item.name}
-            </Text>
-            <Text textAlign="left"size="sm" fontWeight="bold" mt={8} flexShrink={1}>
-              {item.born}
-            </Text>
-          </Pressable>
-          
-        </Link>
-
+          <Link
+            href={{
+              pathname: "/actor-detail",
+              params: actorsitem,
+            }}
+            asChild
+          >
+            <Pressable>
+              <Text
+                textAlign="left"
+                size="xl"
+                fontWeight="bold"
+                mt={10}
+                flexShrink={1}
+              >
+                {item.name}
+              </Text>
+              <Text
+                textAlign="left"
+                size="sm"
+                fontWeight="bold"
+                mt={8}
+                flexShrink={1}
+              >
+                {item.born}
+              </Text>
+            </Pressable>
+          </Link>
         </Box>
 
         <Divider orientation="horizontal" my={2} color="black.100" />
-
       </Box>
-      
-      
     );
   };
 
