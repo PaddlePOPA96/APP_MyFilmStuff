@@ -1,20 +1,31 @@
+import{ useState, useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
+import YoutubePlayer from 'react-native-youtube-iframe';
 import { Header } from "../components";
-import { WebView } from "react-native-webview";
-import { Spinner } from "@gluestack-ui/themed";
+import { SafeAreaView } from 'react-native';
 
+import {
+  Text,
+  ScrollView,
+} from "@gluestack-ui/themed";
 const Web = () => {
   const params = useLocalSearchParams();
   return (
-    <>
-      <Header title={"Watch"} withBack={true} />
-      <WebView
-        source={{ uri: params.link }}
-        startInLoadingState={true}
-        renderLoading={() => <Spinner size={"large"} color={"$black"} />}
+  <SafeAreaView style={{ flex: 1 }}>
+      <Header title={"Watch Trailer"} withBack={true} />
+      <YoutubePlayer
+        height={300}
+        play={true}
+        videoId={params.videoUrl}
       />
-    </>
-  );
+
+      <Text>{params.title}</Text>
+    </SafeAreaView>
+);
 };
 
 export default Web;
+
+
+
+
