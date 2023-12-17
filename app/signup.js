@@ -1,93 +1,129 @@
 import {
   Center,
   Heading,
-  Input,
-  InputField,
-  Button,
-  ButtonText,
-  Text,
-  View,
+  Alert,
+  Box,
   Image,
+  FormControl,
+  Text,
+  Modal,
+  ModalBackdrop,
+  AlertText,
 } from "@gluestack-ui/themed";
 import { useNavigation } from "expo-router";
+import { Input, Button } from "../components";
+import { registerUser } from "./AuthAction";
+import React, { useState, useEffect } from "react";
 
-const Login = () => {
+const SignUp = () => {
   const navigation = useNavigation();
+  const [nama, setNama] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [nohp, setNohp] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  const handlePress = () => {
-    navigation.push("login");
+
+  const toggleAlert = (message) => {
+    setShowAlert(!showAlert);
+    setAlertMessage(message);
+  };
+
+  const onRegister = async () => {
+    if (nama && username && email && nohp && password) {
+      const data = {
+        nama: nama,
+        username: username,
+        email: email,
+        nohp: nohp,
+        status: "user",
+      };
+
+      console.log(data);
+
+      try {
+        const user = await registerUser(data, password);
+        navigation.replace("login");
+      } catch (error) {
+        console.log("Error", error.message);
+        toggleAlert(error.message);
+      }
+    } else {
+      console.log("Error", "Data tidak lengkap");
+      toggleAlert("Data tidak lengkap");
+    }
   };
 
   return (
     <>
-      <Center flex={1}>
-        <Image source={require("../assets/cinemskuy.png")} />
-        <Heading>Sign Up Account</Heading>
-        <View style={{ gap: 10 }}>
-          <Input width={220} borderColor="transparent">
-            <InputField
-              type="text"
-              placeholder="New Username"
-              borderColor="black"
-              borderWidth={3}
-              borderRadius={20}
-              paddingLeft={14}
-            />
-          </Input>
-          <Input width={220} borderColor="transparent">
-            <InputField
-              type="password"
-              placeholder="Insert Password"
-              borderColor="black"
-              borderWidth={3}
-              borderRadius={20}
-              paddingLeft={14}
-            />
-          </Input>
-          <Input width={220} borderColor="transparent">
-            <InputField
-              type="password"
-              placeholder="Re-type Password"
-              borderColor="black"
-              borderWidth={3}
-              borderRadius={20}
-              paddingLeft={14}
-            />
-          </Input>
-          <Input width={220} borderColor="transparent">
-            <InputField
-              type="text"
-              placeholder="Email"
-              borderColor="black"
-              borderWidth={3}
-              borderRadius={20}
-              paddingLeft={14}
-            />
-          </Input>
-          <Button borderRadius={20} bg="black" onPress={handlePress}>
-            <ButtonText color="$yellow300" fontWeight="bold">
-              Sign Up
-            </ButtonText>
-          </Button>
-        </View>
-        <View mt={50}>
-          <Text mb={8} textAlign="center" fontWeight="bold" color="black">
-            Already have account ?
-          </Text>
-          <Button
-            width={220}
-            borderRadius={20}
-            bg="$yellow300"
-            onPress={handlePress}
-          >
-            <ButtonText color="black" fontWeight="bold">
-              Login
-            </ButtonText>
-          </Button>
-        </View>
-      </Center>
+      <Box flex={1} justifyContent= 'center' textAlign="center">
+        <Box pr={30} pl={30} justifyContent= 'center'>
+           <Box alignItems="center">
+                       <Image source={require("../assets/cinemskuy.png")} />
+           </Box>
+           <Text color="$black" fontWeight= 'bold' textAlign="center">Sign Up Account</Text>
+
+        <Box style={{ gap: 10 }}>
+        <FormControl>
+          <Input
+            label="Nama"
+            value={nama}
+            onChangeText={(nama) => setNama(nama)}
+            height={"$10"}
+          />
+           <Input
+            label="Username"
+            value={username}
+            onChangeText={(username) => setUsername(username)}
+            height={"$10"}
+          />
+          <Input
+            label="Email"
+            value={email}
+            onChangeText={(email) => setEmail(email)}
+            height={"$10"}
+          />
+          <Input
+            label="No. Handphone"
+            keyboardType="phone-pad"
+            value={nohp}
+            onChangeText={(nohp) => setNohp(nohp)}
+            height={"$10"}
+          />
+          <Input
+            label="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={(password) => setPassword(password)}
+            height={"$10"}
+          />
+        </FormControl>
+      
+
+        </Box>
+        <Box mt={50}>
+         <Button
+         bgColor="$yellow300"
+         bgTxt="black"
+            title="Register"
+            type="text"
+            icon="submit"
+            padding={"$3"}
+            fontSize={"$md"}
+            onPress={() => {
+              onRegister();
+            }}
+          />
+          
+        </Box>
+        </Box>
+        
+       
+      </Box>
     </>
   );
 };
 
-export default Login;
+export default SignUp;

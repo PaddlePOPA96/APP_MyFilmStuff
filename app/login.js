@@ -1,74 +1,114 @@
 import {
   Center,
   Heading,
-  Input,
-  InputField,
-  Button,
-  ButtonText,
+  FormControl,
   Text,
-  View,
+  Box,
   Image,
+  Alert,
+  Modal,
+  ModalBackdrop,
+  AlertText,
 } from "@gluestack-ui/themed";
+import React, { useState, useEffect } from "react";
+
 import { useNavigation, Link } from "expo-router";
+ import { Input, Button } from "../components";
+ import { loginUser } from "./AuthAction";
 
 const Login = () => {
   const navigation = useNavigation();
   const signup = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  const SignUp = () => {
-    navigation.replace("login");
-    navigation.navigate("signup");
+  const toggleAlert = (message) => {
+    setShowAlert(!showAlert);
+    setAlertMessage(message);
   };
 
+  const login = () => {
+    if (email && password) {
+      loginUser(email, password)
+        .then((user) => {
+          navigation.replace("(tabs)");
+        })
+        .catch((error) => {
+          console.log("Error", error.message);
+          toggleAlert(error.message);
+        });
+    }
+  };
+
+
+
   return (
-    <Center flex={1}>
-      <Image source={require("../assets/cinemskuy.png")} />
-      <Heading>Log in Account</Heading>
-      <View gap={10}>
-        <Input width={220} borderColor="transparent">
-          <InputField
+    <Box flex={1} justifyContent= 'center' textAlign="center">
+      <Box pr={30} pl={30} justifyContent= 'center'>
+    <Box alignItems="center">
+        <Image source={require("../assets/cinemskuy.png")} />
+    </Box>
+      <Text color="$black" fontWeight= 'bold' textAlign="center">Log in Account</Text>
+      <Box>
+      <FormControl>
+          <Input
+            label={"Login"}
+            width={"$full"}
+            height={"$10"}
+            onChangeText={(text) => setEmail(text)} // Set email ke dalam state
+            value={email}
+          />
+          <Input
+            label="Password"
+            width={"$full"}
+            height={"$10"}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)} // Set password ke dalam state
+            value={password}
+          />
+        </FormControl>
+        <Button
+            title="Login"
+            bgColor= "$yellow300"
+            bgTxt="black"
             type="text"
-            placeholder="Username"
-            borderColor="black"
-            borderWidth={3}
-            borderRadius={20}
-            paddingLeft={14}
+            padding={"$3"}
+            onPress={() => login()}
           />
-        </Input>
-        <Input width={220} borderColor="transparent">
-          <InputField
-            type="password"
-            placeholder="Password"
-            borderColor="black"
-            borderWidth={3}
-            borderRadius={20}
-            paddingLeft={14}
+
+      </Box>
+      <Box mt={50}>
+      <Text size="sm" color="$black" mt={"$4"}  textAlign="center">
+            Don't have an account?
+          </Text>
+          
+        <Button
+            title="Register"
+            bgColor="black"
+            bgTxt="$yellow300"
+            type="text"
+            padding={"$3"}
+            onPress={() => {
+              navigation.navigate("signup");
+            }}
           />
-        </Input>
-        <Link
-          href={{
-            pathname: "/home",
-          }}
-          asChild
-        >
-          <Button borderRadius={20} bg="$yellow300">
-            <ButtonText color="black" fontWeight="bold">
-              Login
-            </ButtonText>
-          </Button>
-        </Link>
-      </View>
-      <View mt={50}>
-        <Text mb={8} textAlign="center" fontWeight="bold" color="black">
-          New in CinemSKUY ?
-        </Text>
-        <Button width={220} borderRadius={20} bg="black" onPress={SignUp}>
-          <ButtonText color="$yellow300" fontWeight="bold">
-            Sign Up
-          </ButtonText>
-        </Button>
-      </View>
-    </Center>
+      {/* show Alert */}
+      {showAlert && (
+        <Modal isOpen={showAlert} onClose={() => toggleAlert()}>
+          <ModalBackdrop />
+          <Alert mx="$4" action="error" variant="solid">
+            <AlertText fontWeight="$bold">Error!</AlertText>
+            <AlertText>{alertMessage}</AlertText>
+          </Alert>
+        </Modal>
+      )}     
+      </Box>
+    
+      </Box>
+      
+    </Box>
   );
 };
 
