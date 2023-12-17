@@ -30,12 +30,9 @@ const FavoriteButton = (props) => {
   return (
     <Pressable
       backgroundColor="white"
-      position="absolute"
       justifyContent="center"
-      bottom={100}
       borderRadius={100}
-      right={10}
-      p={20}
+      p={10}
       onPress={() => [
         setLiked((isLiked) => !isLiked),
         handleAddTask(props.id, props.title, props.image, !liked),
