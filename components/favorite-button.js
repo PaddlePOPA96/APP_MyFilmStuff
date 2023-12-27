@@ -1,29 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Pressable } from "@gluestack-ui/themed";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FavoriteButton = (props) => {
   const [liked, setLiked] = useState(false);
-  const [list, setList] = useState([]);
 
-  const handleAddTask = (id, title, image, liked) => {
-    setList((prevList) => [
-      ...prevList,
-      { id: id, title: title, image: image, isCompleted: false },
-    ]);
+  useEffect(() => {
+    const loadLikedStatus = async () => {
+      try {
+        const value = await AsyncStorage.getItem("@movie-list");
+        if (value !== null) {
+          const movieList = JSON.parse(value);
+          const foundItem = movieList.find((item) => item.id === props.id);
+          if (foundItem) {
+            setLiked(foundItem.isCompleted);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    loadLikedStatus();
+  }, [props.id]);
+
+  const handleToggleFavorite = async () => {
     try {
-      AsyncStorage.setItem(
-        "@movie-list",
-        JSON.stringify([
-          ...list,
-          { id: id, title: title, image: image, isCompleted: false },
-        ])
-      );
-    } catch (e) {
-      console.log("Error");
-      console.error(e.message);
+      let updatedList = [];
+      const value = await AsyncStorage.getItem("@movie-list");
+      if (value !== null) {
+        updatedList = JSON.parse(value);
+      }
+
+      const foundIndex = updatedList.findIndex((item) => item.id === props.id);
+      if (foundIndex !== -1) {
+        updatedList[foundIndex].isCompleted = !liked;
+      } else {
+        updatedList.push({
+          id: props.id,
+          title: props.title,
+          image: props.image,
+          isCompleted: !liked,
+        });
+      }
+
+      await AsyncStorage.setItem("@movie-list", JSON.stringify(updatedList));
+      setLiked((prevLiked) => !prevLiked);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -33,10 +58,7 @@ const FavoriteButton = (props) => {
       justifyContent="center"
       borderRadius={100}
       p={10}
-      onPress={() => [
-        setLiked((isLiked) => !isLiked),
-        handleAddTask(props.id, props.title, props.image, !liked),
-      ]}
+      onPress={handleToggleFavorite}
     >
       <MaterialCommunityIcons
         name={liked ? "heart" : "heart-outline"}
