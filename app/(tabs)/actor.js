@@ -1,188 +1,110 @@
-import {
-  Heading,
-  FlatList,
-  Box,
-  Divider,
-  Spinner,
-  Center,
-  Image,
-  ScrollView,
-  Text,
-  Pressable,
-} from "@gluestack-ui/themed";
-import { Header } from "../../components";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FlatList , Box, ScrollView, Text, Pressable, Center, Spinner } from "@gluestack-ui/themed";
+import { ImageBackground } from "react-native";
+import { useNavigation } from "expo-router";
+import {  Header } from "../../components";
 import { Link } from "expo-router";
-import CategoryButton from "../../components/category-button";
 
-const actordata = [
-  {
-    id: 11,
-    name: "John Cena Jr.",
-    description: "",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/John_Cena_July_2018.jpg/800px-John_Cena_July_2018.jpg",
 
-    genre: "Producer/Actor",
-    born: "April, 23 1977",
-    parent: "Carol Cena",
-    spouses: "Shay Shariatzadeh",
-    other:
-      "TV commercial for the Stacker 2 YJ Stinger Extreme Energy Drink from NVE Pharmaceuticals. As of 2020 Stacker 2 is still used as the label for some supplements, but the YJ Stinger Extreme Energy Drink is no longer produced",
-    link: "https://www.imdb.com/name/nm1078479/",
-    categories: "Actor",
-  },
-  {
-    id: 12,
-    name: "Angelina Jolie",
-    description: "",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm91ttrInqVYkGddA4AnTNfJc-o4SbmDZL8Vv_NH0qnUgkqRmY",
-    genre: "",
-    born: "",
-    parent: "",
-    spouses: "",
-    other: "",
-    link: "https://www.imdb.com/name/nm1078479/",
-    categories: "Actress",
-  },
-];
 
-const categories = [
-  {
-    id: 0,
-    name: "All",
-    categories: "All",
-  },
-  {
-    id: 1,
-    name: "Actress",
-    categories: "Actress",
-  },
-  {
-    id: 2,
-    name: "Actor",
-    categories: "Actor",
-  },
-];
+const API_KEY = "YOUR_API_KEY";
+
 const Actor = () => {
-  const [datasList, setDatas] = useState(actordata);
-  const [StatusActive, setStatusActive] = useState("All");
-  const setStatus = (StatusActive) => {
-    if (StatusActive !== "All") {
-      setDatas([...actordata.filter((e) => e.categories === StatusActive)]);
-    } else {
-      setDatas(actordata);
-    }
-    setStatusActive(StatusActive);
-  };
+  const navigation = useNavigation();
+  const [actors, setActors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [activeCategory, setActiveCategory] = useState(0);
-
-  const renderitem = ({ item }) => {
-    const actorsitem = {
-      name: item.name,
-      image: item.image,
-      description: item.description,
-      genre: item.genre,
-      born: item.born,
-      parent: item.parent,
-      spouses: item.spouses,
-      other: item.other,
-      link: item.link,
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/person/popular?api_key=376b068b6931955f89047ad9e1c7b03b`
+        );
+        const data = await response.json();
+        setActors(data.results);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching actors:", error);
+        setIsLoading(false);
+      }
     };
+    fetchData();
+  }, []);
 
-    return (
-      <Box>
-        <Box p={10} flexDirection="row" alignItems="center">
-          <Link
-            href={{
-              pathname: "/actor-detail",
-              params: actorsitem,
-            }}
-            asChild
-          >
-            <Pressable>
-              <Image
-                alt={item.name}
-                source={{ uri: item.image }}
-                w={100}
-                h={100}
-                borderRadius={10}
-                marginRight={10}
-              />
-            </Pressable>
-          </Link>
-          <Divider orientation="vertical" h="80%" mx={10} color="gray.300" />
-
-          <Link
-            href={{
-              pathname: "/actor-detail",
-              params: actorsitem,
-            }}
-            asChild
-          >
-            <Pressable>
-              <Text
-                textAlign="left"
-                size="xl"
-                fontWeight="bold"
-                mt={10}
-                flexShrink={1}
-              >
-                {item.name}
-              </Text>
-              <Text
-                textAlign="left"
-                size="sm"
-                fontWeight="bold"
-                mt={8}
-                flexShrink={1}
-              >
-                {item.born}
-              </Text>
-            </Pressable>
-          </Link>
-        </Box>
-
-        <Divider orientation="horizontal" my={2} color="black.100" />
-      </Box>
-    );
+  const handlePress = (actor) => {
+    navigation.navigate("ActorDetail", {
+      name: actor.original_name,
+      image: `https://image.tmdb.org/t/p/w500${actor.profile_path}`,
+      gender: actor.gender === 2 ? "Male" : "Female",
+      knownForDepartment: actor.known_for_department,
+      originalName: actor.name,
+      popularity: actor.popularity,
+      knownFor: actor.known_for, // Mengirimkan knownFor ke halaman ActorDetail
+    });
   };
+
+
+  
+  const renderActor = ({ item }) => (
+    <Link
+    href={{
+      pathname: "/actor-detail",
+      query: {
+        name: item.original_name,
+        image: `https://image.tmdb.org/t/p/w500${item.profile_path}`,
+        gender: item.gender === 2 ? "Male" : "Female",
+        knownForDepartment: item.known_for_department,
+        originalName: item.name,
+        popularity: item.popularity,
+        knownFor: item.known_for, // Array of movies/TV shows
+      }
+    }}
+    asChild
+    >
+      <Pressable style={{ width: "50%" }}>
+      <Box p={10}>
+          <ImageBackground
+            alt={item.original_name}
+            style={{ width: "100%", height: 230 }}
+            source={{ uri: `https://image.tmdb.org/t/p/w500${item.profile_path}` }}
+            resizeMode="cover"
+            imageStyle={{ borderRadius: 20 }}
+          >
+           
+          </ImageBackground>
+          <Text textAlign="center" fontWeight="bold" fontSize={15} mt={10} color="black">
+              {item.original_name}
+            </Text>
+            <Text textAlign="center" fontSize={12} mt={5} color="black">
+              Gender: {item.gender === 2 ? "Male" : "Female"}
+            </Text>
+        </Box>
+      </Pressable>
+    </Link>
+  );
 
   return (
     <>
-      <Header title={"Actor"} />
-      <Box>
-        <ScrollView>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Box flexDirection="row" mt={20}>
-              {categories.map((item, index) => (
-                <CategoryButton
-                  title={item.categories}
-                  isFirst={index === 0}
-                  isActive={index === activeCategory}
-                  key={index}
-                  onPress={() => [
-                    setStatus(item.categories),
-                    setActiveCategory(index),
-                  ]}
-                />
-              ))}
-            </Box>
-          </ScrollView>
+          <Header title={"CinemSkuy"} />
 
-          <FlatList
-            scrollEnabled={false}
-            paddingBottom={100}
-            data={datasList}
-            renderItem={renderitem}
-            numColumns={1} // Set numColumns to 1 for a single column (list view)
-          />
-        </ScrollView>
-      </Box>
+    
+    <FlatList
+      data={actors}
+      renderItem={renderActor}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{ padding: 6}}
+      ListEmptyComponent={
+        isLoading ? (
+          <Center flex={1}>
+            <Spinner size={"large"} color={"$black"} />
+          </Center>
+        ) : null
+      }
+    />
     </>
   );
+  
 };
 
 export default Actor;
