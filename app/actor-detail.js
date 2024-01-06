@@ -1,164 +1,39 @@
-import React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Image,
-  ScrollView,
-  Button,
-  ButtonText,
-} from "@gluestack-ui/themed";
-import { Header } from "../components";
-import { Link, useLocalSearchParams } from "expo-router";
-import { ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Box, ScrollView, Text, Image } from "@gluestack-ui/themed";
+import { useRoute } from "@react-navigation/native";
 
-const actorDetail = () => {
-  const params = useLocalSearchParams();
+const ActorDetail = () => {
+  const route = useRoute();
+  const { name, image, gender, knownForDepartment, originalName, popularity, knownFor } = route.params;
+
   return (
-    <>
-      <ScrollView>
-        <ImageBackground
-          source={{ uri: params.image }}
+    <ScrollView>
+      <Box alignItems="center" p={10}>
+        <Image
+          source={{ uri: image }}
           alt="Actor Image"
-          role="img"
-        >
-          <Box bg={"rgba(0,0,0, 0.60)"}>
-            <Box p={"$4"} mt={500}>
-              <Heading
-                lineHeight={"$2xl"}
-                fontSize={"$3xl"}
-                color={"$white"}
-                mb={20}
-                textAlign="center"
-              >
-                {params.name}
-              </Heading>
-              <Box flexDirection="row" justifyContent="center">
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                >
-                  Born: {params.born}
-                </Text>
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                  marginHorizontal={20}
-                >
-                  |
-                </Text>
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                >
-                  Genre: {params.genre}
-                </Text>
-              </Box>
-            </Box>
+          style={{ width: 150, height: 230 }}
+        />
+        <Text fontWeight="bold" fontSize={18} mt={10}>{name}</Text>
+        <Text fontSize={14}>{`Gender: ${gender}`}</Text>
+        <Text fontSize={14}>{`Known for Department: ${knownForDepartment}`}</Text>
+        <Text fontSize={14}>{`Original Name: ${originalName}`}</Text>
+        <Text fontSize={14}>{`Popularity: ${popularity}`}</Text>
+        
+        <Text fontWeight="bold" fontSize={16} mt={10}>Known For</Text>
+        {knownFor && knownFor.map((movie, index) => (
+          <Box key={index} p={10}>
+            <Text>{movie.title || movie.original_name}</Text>
+            <Image
+              source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }}
+              style={{ width: 100, height: 150 }}
+              alt="Movie Image"
+            />
           </Box>
-        </ImageBackground>
-
-        <Box alignItems="center" p={10} marginTop={20}>
-          <Box flexDirection="row" marginBottom={20}>
-            <Link
-              href={{
-                pathname: "/web",
-                params: { link: params.link },
-              }}
-              asChild
-            >
-              <Button
-                marginRight={20}
-                backgroundColor="$yellow300"
-                borderRadius={20}
-                alignSelf="flex-start"
-                flexDirection="column"
-                height={40}
-              >
-                <ButtonText color={"$black"}>Read More</ButtonText>
-              </Button>
-            </Link>
-
-            <Link
-              href={{
-                pathname: "/web",
-                params: { link: params.link },
-              }}
-              asChild
-            >
-              <Button
-                backgroundColor="$yellow300"
-                borderRadius={20}
-                alignSelf="flex-start"
-                height={40}
-              >
-                <ButtonText color={"$black"}>add to favourite</ButtonText>
-              </Button>
-            </Link>
-          </Box>
-
-          <Text
-            width={335}
-            marginBottom={"$4"}
-            lineHeight={"$xs"}
-            fontSize={"$sm"}
-          >
-            {params.description}
-          </Text>
-
-          <Box p={15}>
-            <Box>
-              <Text
-                marginBottom={"$4"}
-                lineHeight={"$xs"}
-                fontSize={"$sm"}
-                fontWeight="bold"
-              >
-                Parent
-              </Text>
-              <Text marginBottom={"$4"} lineHeight={"$xs"} fontSize={"$sm"}>
-                {params.parent}
-              </Text>
-            </Box>
-
-            <Box>
-              <Text
-                marginBottom={"$4"}
-                lineHeight={"$xs"}
-                fontSize={"$sm"}
-                fontWeight="bold"
-              >
-                Spouses
-              </Text>
-              <Text marginBottom={"$4"} lineHeight={"$xs"} fontSize={"$sm"}>
-                {params.spouses}
-              </Text>
-            </Box>
-
-            <Box>
-              <Text
-                marginBottom={"$4"}
-                lineHeight={"$xs"}
-                fontSize={"$sm"}
-                fontWeight="bold"
-              >
-                Other
-              </Text>
-              <Text marginBottom={"$4"} lineHeight={"$xs"} fontSize={"$sm"}>
-                {params.other}
-              </Text>
-            </Box>
-          </Box>
-        </Box>
-      </ScrollView>
-    </>
+        ))}
+      </Box>
+    </ScrollView>
   );
 };
 
-export default actorDetail;
+export default ActorDetail;
