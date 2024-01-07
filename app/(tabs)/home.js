@@ -16,7 +16,6 @@ import { Categories, Header, moviesItem } from "../../components";
 import { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import CategoryButton from "../../components/category-button";
-import datas from "../../datas";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 

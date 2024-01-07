@@ -12,10 +12,9 @@ const StackLayout = () => {
         <Stack.Screen name="index" options={noHead} />
         <Stack.Screen name="web" options={noHead} />
         <Stack.Screen name="movies-detail" options={noHead} />
-        <Stack.Screen name="payment-film" options={noHead} />
         <Stack.Screen name="favorite-page" options={noHead} />
         <Stack.Screen name="login" options={noHead} />
-        <Stack.Screen name="signup" options={noHead} /><Stack.Screen name="form-transaction" options={noHead} />
+        <Stack.Screen name="signup" options={noHead} />
 
       </Stack>
     </GluestackUIProvider>
