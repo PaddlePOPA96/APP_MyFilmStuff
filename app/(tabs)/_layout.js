@@ -14,9 +14,6 @@ const TabsLayout = () => {
             case "home":
               iconName = "home-outline";
               break;
-            case "transaction":
-              iconName = "cash-outline";
-              break;
             case "actor":
               iconName = "people-outline";
               break;
@@ -54,10 +51,6 @@ const TabsLayout = () => {
       <Tabs.Screen name="home" options={{ title: "Home", ...noHead }} />
       <Tabs.Screen name="actor" options={{ title: "Actor", ...noHead }} />
 
-      <Tabs.Screen
-        name="transaction"
-        options={{ title: "Transaction", ...noHead }}
-      />
       <Tabs.Screen name="profile" options={{ title: "Profile", ...noHead }} />
     </Tabs>
   );

@@ -18,7 +18,6 @@ import FavoriteButton from "../components/favorite-button";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import formtransaction from "./form-transaction";
 
 const moviesDetail = () => {
   const navigation = useNavigation();
@@ -217,33 +216,14 @@ const moviesDetail = () => {
               >
                 {params.title}
               </Heading>
-              <Box flexDirection="row" justifyContent="center">
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                >
-                  Released at {params.year}
-                </Text>
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                  marginHorizontal={20}
-                >
-                  |
-                </Text>
-                <Text
-                  color={"$white"}
-                  textAlign="center"
-                  lineHeight={"$2xs"}
-                  fontSize={"$sm"}
-                >
-                  Duration: {params.duration}
-                </Text>
-              </Box>
+              <Text
+                color={"$white"}
+                textAlign="center"
+                lineHeight={"$2xs"}
+                fontSize={"$sm"}
+              >
+                Released at {params.year}
+              </Text>
             </Box>
             <Link
               href={{
@@ -277,50 +257,57 @@ const moviesDetail = () => {
           </Box>
         </ImageBackground>
 
-        <Box alignItems="center" p={10} marginTop={40}>
-          <Text
-            width={335}
-            marginBottom={"$4"}
-            lineHeight={"$xs"}
-            fontSize={"$sm"}
-          >
-            {params.synopsis}
-          </Text>
+        <Box p={10} marginTop={40}>
+          <Box alignItems="center">
+            <Text
+              width={335}
+              marginBottom={"$4"}
+              lineHeight={"$xs"}
+              fontSize={"$sm"}
+            >
+              {params.synopsis}
+            </Text>
+          </Box>
+
+          <Box pl={12} mt={20} alignItems="start" width={150}>
+            <Text
+              fontWeight="bold"
+              color="$black"
+              borderBottomWidth={1}
+              borderBottomColor="#000"
+            >
+              Similar Film
+            </Text>
+          </Box>
 
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             scrollEnabled={true}
-            paddingBottom={10}
+            paddingBottom={5}
             data={similar}
             renderItem={renderitem}
           />
 
+          <Box pl={12} alignItems="start" width={100}>
+            <Text
+              fontWeight="bold"
+              color="$black"
+              borderBottomWidth={1}
+              borderBottomColor="#000"
+            >
+              Our Cast
+            </Text>
+          </Box>
+
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             scrollEnabled={true}
-            paddingBottom={10}
+            paddingBottom={5}
             data={cast}
             renderItem={renderitem2}
           />
-
-          <Link
-            href={{
-              pathname: "/form-transaction",
-            }}
-            asChild
-          >
-            <Button
-              backgroundColor="$yellow300"
-              borderRadius={20}
-              alignSelf="flex-start"
-              height={80}
-              width={350}
-            >
-              <ButtonText color={"$black"}>Buy Ticket</ButtonText>
-            </Button>
-          </Link>
         </Box>
       </ScrollView>
     </>
