@@ -17,7 +17,6 @@ export const registerUser = async (data, password) => {
     await FIREBASE.database()
       .ref("users/" + success.user.uid)
       .set(dataBaru);
-    //Local storage(Async Storage)
     storeData("user", dataBaru);
     return dataBaru;
   } catch (error) {
@@ -36,7 +35,6 @@ export const loginUser = async (email, password) => {
       .once("value");
 
     if (resDB.val()) {
-      // Local storage (Async Storage)
       await storeData("user", resDB.val());
       return resDB.val();
     } else {
@@ -47,29 +45,50 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const forgotPassword = async (email) => {
+export const addReview = async (data) => {
   try {
-    const auth = FIREBASE.getAuth();
-    await sendPasswordResetEmail(auth, email);
-    console.log("Password reset email sent successfully");
+    const userData = await getData("user");
+
+    if (userData) {
+      const dataBaru = {
+        ...data,
+        uid: userData.uid,
+      };
+      await FIREBASE.database()
+        .ref("reviews/" + userData.uid)
+        .push(dataBaru);
+      console.log("review added successfully");
+    } else {
+      Alert.alert("Error", "Login Terlebih Dahulu");
+    }
   } catch (error) {
-    console.error("Error sending password reset email:", error);
-    throw error; 
+    throw error;
   }
 };
 
-export const updatePassword = async (email, newPassword) => {
-  try {
-    const auth = FIREBASE.getAuth();
-
-    const user = await confirmPasswordReset(auth,);
-
-    await updatePassword(user, newPassword);
-    console.log("Password updated successfully");
-  } catch (error) {
-    console.error("Error updating password:", error);
-    throw error;
-  }
+export const getReview = async () => {
+  const userData = await getData("user");
+  const notesRef = FIREBASE.database().ref("reviews/" + userData.uid);
+  return notesRef
+    .once("value")
+    .then((snapshot) => {
+      const reviewsData = snapshot.val();
+      if (reviewsData) {
+        const reviewsArray = Object.entries(reviewsData).map(
+          ([reviewId, reviewData]) => ({
+            reviewId,
+            ...reviewData,
+          })
+        );
+        return reviewsArray;
+      } else {
+        return [];
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching user reviews:", error);
+      return [];
+    });
 };
 
 export const logoutUser = () => {

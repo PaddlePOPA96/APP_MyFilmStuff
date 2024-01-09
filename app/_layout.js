@@ -15,7 +15,8 @@ const StackLayout = () => {
         <Stack.Screen name="favorite-page" options={noHead} />
         <Stack.Screen name="login" options={noHead} />
         <Stack.Screen name="signup" options={noHead} />
-
+        <Stack.Screen name="list" options={noHead} />
+        <Stack.Screen name="review" options={noHead} />
       </Stack>
     </GluestackUIProvider>
   );

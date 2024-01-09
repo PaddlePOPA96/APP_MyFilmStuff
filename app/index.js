@@ -20,8 +20,8 @@ const Root = () => {
   return (
     <Box flex={1} alignItems= 'center' justifyContent= 'center'>
       <Image
-        source={require("../assets/cinemskuy2.png")}
-        style={{ width: 200, height: 200 }}
+        source={require("../assets/cinemskuy2.png" )}
+        style={{ width: 200, height: 200 }}alt="icon"
       />
     </Box>
   );
