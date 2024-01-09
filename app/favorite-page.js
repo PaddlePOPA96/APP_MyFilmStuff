@@ -11,7 +11,6 @@ import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Favorite, Header} from "../components";
 
-
 const FavoritePage = () => {
   const [completedListLength, setCompletedListLength] = useState(0);
   const [allList, setAllList] = useState([]);

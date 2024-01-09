@@ -35,18 +35,20 @@ const FavoriteButton = (props) => {
 
       const foundIndex = updatedList.findIndex((item) => item.id === props.id);
       if (foundIndex !== -1) {
-        updatedList[foundIndex].isCompleted = !liked;
+        updatedList.splice(foundIndex, 1);
+        await AsyncStorage.setItem("@movie-list", JSON.stringify(updatedList));
+        setLiked(false);
       } else {
         updatedList.push({
           id: props.id,
           title: props.title,
           image: props.image,
-          isCompleted: !liked,
+          isCompleted: true,
         });
-      }
 
-      await AsyncStorage.setItem("@movie-list", JSON.stringify(updatedList));
-      setLiked((prevLiked) => !prevLiked);
+        await AsyncStorage.setItem("@movie-list", JSON.stringify(updatedList));
+        setLiked(true);
+      }
     } catch (error) {
       console.error(error);
     }
