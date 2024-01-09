@@ -254,6 +254,8 @@ const moviesDetail = () => {
                 />
               </Pressable>
             </Link>
+
+            
           </Box>
         </ImageBackground>
 
@@ -310,7 +312,29 @@ const moviesDetail = () => {
           />
         </Box>
       </ScrollView>
-    </>
+
+<Box pl ={20} pr={8}>
+  
+              <Box p ={10}>
+                 <Pressable
+                  backgroundColor="black"
+                  position="absolute"
+                  justifyContent="center"
+                  bottom={20}
+                  width='100%'
+                  borderRadius={100}
+                  p={20}
+                  onPress={() => {
+                    navigation.navigate("review");
+                  }}
+              >
+              <Text color="$yellow300" fontWeight='bold'>Review</Text>
+              </Pressable>
+              </Box>
+           
+
+</Box>
+       </>
   );
 };
 
